@@ -12,7 +12,10 @@ Cloudflare R2 - A NextJS file upload uploader
 
 
 ## Demo
-<will be uploaded over here>
+
+https://github.com/dkdevpro/next-file-uploader/assets/1906346/36434d72-19e9-4ee8-ab1d-60958f6a94c8
+
+
 
 ## What's next? How do I make an app with this?
 
