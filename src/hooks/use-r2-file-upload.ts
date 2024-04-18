@@ -65,7 +65,6 @@ export function useR2UploadFile(
             Bucket: process.env.NEXT_PUBLIC_R2_BUCKET_NAME!,
             Key: file_key,
             Body: file,
-            signatureVersion: "v4",
           };
 
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
@@ -87,7 +86,6 @@ export function useR2UploadFile(
                 [file.name]: progress,
               };
             });
-            console.log(Math.round(progress));
           });
           await upload.done();
 
@@ -116,6 +114,7 @@ export function useR2UploadFile(
   async function onDeleteFile(index: number) {
     console.log("onDelete", index);
     if (!uploadedFiles) return;
+
     try {
       const s3 = new S3({
         region: "auto",
@@ -134,12 +133,18 @@ export function useR2UploadFile(
             Key: uploadedFile.fileKey,
             signatureVersion: "v4",
           };
-          const data = await s3.send(new DeleteObjectCommand(params));
-          console.log("Success. Object deleted.", data);
+
+          toast.promise(s3.send(new DeleteObjectCommand(params)), {
+            loading: `Deleting file from remote...`,
+            success: () => {
+              return `1 file delete`;
+            },
+            error: `Failed to delete file`,
+          });
           return uploadedFile;
         });
       const result: UploadedFile<File>[] = await Promise.all(uploadPromises);
-      const newFiles = result.filter((_, i) => i !== index);
+      const newFiles = uploadedFiles.filter((item, _) => item !== result[0]);
       setUploadedFiles(newFiles);
     } catch (err) {
       toast.error(getErrorMessage(err));
