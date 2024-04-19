@@ -5,7 +5,7 @@ export const siteConfig = {
     "A uploader component that demonstrates with cloud provider such as AWS, R2, uploadthing, etc.",
   links: {
     twitter: "https://twitter.com/dkdevpro",
-    github: "https://github.com/dinesktech/next-file-uploader",
+    github: "https://github.com/dkdevpro/next-file-uploader",
   },
   url:
     process.env.NODE_ENV === "development"
